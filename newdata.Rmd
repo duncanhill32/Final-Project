@@ -107,7 +107,7 @@ The most interesting teams often have the best players who score the most amount
 
 Let's take a look at a few notable teams from the 2017 season to see what on the field aspects made them interesting (or boring) to watch.
 
-## Points Scored
+## Team Points For Total (Figure 1)
 
 ```{r, echo = FALSE}
 #subsetting the data for sankeyplot
@@ -201,7 +201,7 @@ ggplot(NFLsub2, aes(x = Week, node = TeamFor, fill = TeamFor, value = TeamForAga
   labs(title = "Total Points Against throughout the 2017 Season", y = "Total Points Against")
 ```
 
-## Total Points in game
+## Combined Points Total (Figure #2)
 ```{r, echo = FALSE}
 #Points For + Points Against (Total Points in game)
 ggplot(NFLsub2, aes(x = Week, node = TeamFor, fill = TeamFor, value = ForSum+TeamForAgainst)) +
@@ -232,6 +232,8 @@ Between the 2017 and 2018 NFL seasons, sports gambling was legalized. However, i
 
 ## Differences in the 2017 and 2018 seasons
 
+### Figure #3
+
 ```{r, echo = FALSE}
 #2017 correlation plot
 library(gridExtra)
@@ -250,7 +252,7 @@ NFLcorr17 = round(cor(corrFrame17), 1)
 ggcorrplot(NFLcorr17, type = "lower", lab = TRUE, lab_size = 3, title = "Correlation Relationships for the\n 2017 NFL Season")
 ```
 
-
+### Figure #4
 ```{r, echo = FALSE}
 #2018 correlation plot
 corrFrame18 = data.frame(
@@ -277,7 +279,7 @@ According to these graphs, there is not one factor that overwhelmingly impacts t
 
 From this graphic, environmental causes such as wind speed and temperature did not drastically affect the outcomes of the games. During these seasons, the NFL was not affected by an external factor that impacted the games. However, there was a change in the form of high quality, high scoring games.
 
-#Finding Interesting Games through the Over/Under
+#Finding Interesting Games through the Over/Under (Figure #5)
 ```{r, echo  = FALSE}
 #Over-Under vs Total Score
 library(ggplot2)
@@ -297,6 +299,8 @@ By focusing on only the games with the highest Over/Under, we can see a distinct
 Most notably in 2018, the game that is considered "The Greatest Regular Season Game" occurred between the Rams and the Chiefs. With an absurd Over/Under of 63.5, this game was expected to be high scoring. It delivered with a 54-51 scoreline that had 105 total points. If scoring is what leads the NFL to success, this game was arguably the most important regular season game ever for the NFL.
 
 This game marked the start of a new era for NFL football.
+
+## NFL-wide Point totals (Figure #6)
 
 ```{r, echo = FALSE}
 sum2017 = sum(NFL2017$Home.Score) + sum(NFL2017$Away.Score)
