@@ -1,0 +1,97 @@
+---
+title: "Past Visualizations"
+description: |
+  Visualizations created using RStudio for MATH230
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+  Through the duration of this year, many different visualizations were generated in RStudio for MATH230. The name of the course is "Data Visualization and Computing" so it makes sense after all! These five pieces best represent the work I have done this semester.
+
+
+## Piece #1: Bucknell Mandelbrot (Generative)
+
+![Bucknell Mandelbrot by Duncan Hill](best mandelbrot math230.png)
+  The detail in the spirals as well as the distinct orange and blue contrast is what made me enjoy this piece of generative art. I created this mandelbrot using the arTsy mandelbrot function. I submitted this Mandelbrot set to the Bucknell Math Department Postcard competition. 
+
+
+## Piece 2: Underwater (Generative)
+
+![Underwater by Duncan Hill](underwater math230.png)
+
+  This is another piece of generative artwork I created using the arTsy package. It reminded me of deep water, and it was created using the nebula package. 
+
+## Piece 3: A Titanic Mosaic (Plot)
+
+```{r}
+library(ggplot2)
+library(ggmosaic)
+titanic1 = titanic
+ggplot(titanic1) +
+  geom_mosaic(aes(x = product(Class, Survived), fill = Class, conds = product(Sex)), divider=mosaic("v"), offset = 0.04) +
+  xlab("Survival") +
+  ylab("Class:Sex")
+```
+
+  This plot is called "A Titanic Mosaic". It was created using the ggplot2 package ggmosaic. The dataset is built in to RStudio, and it details the class, gender, and survival of each passenger on the Titanic on the night it sank. 
+
+  The graphic is showing the differences that led to different survival rates among the passengers/crew. Women survived at a higher rate then men, and upper class passengers survived at a higher rate than lower class passengers. This plot allows for understanding the circumstances that led to survival during the night of this tragedy.
+
+## Piece 4: Changing Confidence
+
+```{r}
+set.seed(14159265)
+populationData = rnorm(10000, mean = 48, sd = 4)
+conInt = c(2*(1:20)+50,92,94,96,98,99,99.5,99.9)
+meanSamp = NULL
+errorSamp = NULL
+for(i in 1:length(conInt)){
+  samp = sample(populationData, 40, replace = TRUE)
+  meanSamp[i] = mean(samp)
+  errorSamp[i] = qnorm(conInt[i]/100+(1-conInt[i]/100)/2)*4/sqrt(40)
+}
+dfSamp = data.frame(conInt,meanSamp,errorSamp)
+#Error bar plot
+ggplot(dfSamp, aes(x = conInt, y = meanSamp[1], ymin = meanSamp[1] - errorSamp, ymax = meanSamp[1] + errorSamp)) +
+  geom_hline(yintercept = mean(populationData), linetype = "dashed", color = "black", alpha = 0.6)+ #mean of the population data
+  geom_errorbar(width = 0.3, color = "darkorange") +
+  geom_point(size = 1.3, color = "blue") +
+  
+  labs(title = "Confidence Intervals of Increasing Confidence Levels", x = "Confidence Level (%)",
+       y = "Mean of Sample")
+rm(titanic1)
+```
+
+  The fourth visualization I have displayed here is meant to demonstrate the relationship between confidence level and the confidence interval width. 
+  
+  The population was randomly generated using a normal distribution with a mean of 48 and a standard deviation of 4. Then, a random sample of size 40 was taken from this population. Utilizing the data from that random sample, the sample mean and confidence interval were generated from a confidence level of 50% to a confidence level of 99.9%. This visualization shows how, as confidence level increases, the interval width also increases.
+
+  This plot was eventually made to be an interactive app using Shiny. This app can be found on the link below. It allows for changes in sample size, sample mean, and confidence level to see how much those components affect the width and accuracy of a confidence interval for a given sample.
+
+Shiny App Link:
+
+https://rconnect.bucknell.edu/content/4bc055a7-8c0e-4988-83e7-a657ace9fb16
+
+## Piece 5: Variations of Faculty Salary 
+
+```{r}
+library(Lock5Data)
+data(CollegeScores)
+CollegeScores = CollegeScores[complete.cases(CollegeScores), ]
+# Removing a region with only one university.
+CollegeScores = CollegeScores[-1158, ]
+library(Hmisc) #introduces package for data summary
+ggplot(CollegeScores, aes(x=Locale, y=FacSalary, fill = Locale))+
+  geom_violin(scale = "width") +
+  ggtitle("Average Faculty Salary of Colleges in the United States") +
+  guides(fill = "none") +
+  stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), geom = "pointrange", color = "darkred") +
+  ylab("Average Monthly Salary ($)") +
+rm(CollegeScores)
+```
+
+  This visualization uses a data set from the Lock5 Package, from the CollegeScores dataset. It contains information like admittance rate, teacher salary, location, and more about each college or University in the United States. 
+  The main comparison in this graphic is supposed to show the differences in professor/faculty salary between Universities in different locations. Schools that are rural or town based are funded much less than schools that are located in a city or suburb. This makes sense due to higher costs of living.
+  I chose this graphic because it is visually unique and tells a distinct story about how faculty members are paid differently despite having similar occupations.

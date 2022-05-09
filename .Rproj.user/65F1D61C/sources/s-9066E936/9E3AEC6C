@@ -1,0 +1,28 @@
+{
+    "id": "9E3AEC6C",
+    "path": "C:/Users/12154/OneDrive/Desktop/Prof. Development/Website/Final Project/newdata.Rmd",
+    "project_path": "newdata.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": true,
+    "created": 1650909379035.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "277,232",
+        "scrollLine": "272",
+        "last_setup_crc32": "9066E936bb338d19"
+    },
+    "folds": "9|20|16|0|\n19|20|61|0|\n63|20|82|0|\n84|20|99|0|\n111|20|161|0|\n163|20|170|0|\n195|34|201|0|\n",
+    "lastKnownWriteTime": 1652132847,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1652133017897,
+    "read_only": false,
+    "read_only_alternatives": []
+}

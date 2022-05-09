@@ -1,0 +1,35 @@
+---
+title: "Duncan Hill's Website"
+image: "Hill_Duncan-2553.jpg"
+color2: "#5A59A3"
+color1: "darkorange"
+angle: 180
+links:
+  - label: Email
+    url: "mailto:dmh049@bucknell.edu"
+  - label: LinkedIn
+    url: "https://www.linkedin.com/in/duncan-32-hill/"
+  - label: Sports Profile
+    url: "https://bucknellbison.com/sports/mens-lacrosse/roster/duncan-hill/7673"
+output:
+  postcards::onofre
+site: distill::distill_website
+---
+This website is for Duncan Hill's Math230 Final Project.
+
+  I am a 2024 chemical engineering student at Bucknell University who is on the Men's Lacrosse team.
+
+  I plan to graduate with a BS in Chemical Engineering, with a concentration in Material Science Engineering. I also plan to have a minor in Mathematics (Statistics).
+
+  This website was created for the MATH230 Final Project using RStudio and Distill. This site displays visualizations I created during the duration of the course as well as an analysis of the 2017 and 2018 NFL season.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
+
+

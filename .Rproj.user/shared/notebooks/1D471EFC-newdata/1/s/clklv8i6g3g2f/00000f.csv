@@ -1,0 +1,6 @@
+"0","#READING IN THE DATA FROM STORED FILES"
+"0","NFL2017 <- read.csv(""NFLdata2017.csv"", stringsAsFactors = F)"
+"0","NFL2018 <- read.csv(""NFLdata2018.csv"", stringsAsFactors = F)"
+"0","NFL78 <- read.csv(""NFLdata78.csv"", stringsAsFactors = F)"
+"0","#Stats (scores), Weather and More!"
+"0","#For the 2017 and 2018 regular seasons"

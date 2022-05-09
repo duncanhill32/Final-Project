@@ -1,0 +1,9 @@
+"0","#subsetting the data for sankeyplot"
+"0",""
+"0","#creating a subset of the data"
+"0","NFLsub = NFL2017[NFL2017$Home.Team == ""Los Angeles Chargers"" | NFL2017$Home.Team == ""Los Angeles Rams""| NFL2017$Home.Team == ""Buffalo Bills"" |  NFL2017$Home.Team == ""New England Patriots"" |NFL2017$Home.Team == ""Philadelphia Eagles"" |NFL2017$Home.Team == ""Cleveland Browns"" | NFL2017$Away.Team == ""Los Angeles Chargers"" | NFL2017$Away.Team == ""Los Angeles Rams""| NFL2017$Away.Team == ""Buffalo Bills"" |  NFL2017$Away.Team == ""New England Patriots"" |NFL2017$Away.Team == ""Philadelphia Eagles"" |NFL2017$Away.Team == ""Cleveland Browns"", ]"
+"0","dupIndex = rep(1:nrow(NFLsub), each = 2)"
+"0","NFLsub2 = NFLsub[dupIndex, c(2:6, 15:18)] #creates duplicate  entry for each game and needed column"
+"2","Error in `[.data.frame`(NFLsub, dupIndex, c(2:6, 15:18)) : 
+  undefined columns selected
+"

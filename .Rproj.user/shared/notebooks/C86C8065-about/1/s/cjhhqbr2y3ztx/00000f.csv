@@ -1,0 +1,13 @@
+"0","library(ggplot2)"
+"0","library(ggmosaic)"
+"0","titanic1 = titanic"
+"0","ggplot(titanic1) +"
+"0","  geom_mosaic(aes(x = product(Class, Survived), fill = Class, conds = product(Sex)), divider=mosaic(""v""), offset = 0.04) +"
+"0","  xlab(""Survival"") +"
+"0","  ylab(""Class:Sex"")"
+"2","Warning:"
+"2"," `unite_()` was deprecated in tidyr 1.2.0.
+Please use `unite()` instead.
+[90mThis warning is displayed once every 8 hours.[39m
+[90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.[39m
+"

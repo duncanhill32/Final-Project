@@ -1,0 +1,5 @@
+"0","library(ggplot2)"
+"0","ggplot(NFL2018, aes(x = Over.Under, y = Home.Score+Away.Score))+"
+"0","  geom_point() +"
+"0","  geom_abline(slope = 1, intercept = 0) +"
+"0","  labs(title = ""NFL 2018 season: Gambling \nOver/Under Line vs Total Points Scored"", y = ""Total Score"", x = ""Over/Under Line"")"

@@ -1,0 +1,14 @@
+---
+title: "Duncan Hill's Website"
+image: "Hill_Duncan-2553.jpg"
+color1: "#5A59A3"
+color2: "#C66060"
+angle: 100
+links:
+  - label: Email
+    url: "mailto:dmh049@bucknell.edu"
+output:
+  postcards::onofre
+---
+
+This website is for the Math230 Final Project. Enjoy!

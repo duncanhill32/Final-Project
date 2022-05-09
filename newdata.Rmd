@@ -1,0 +1,320 @@
+---
+title: "NFL Football and Sports Betting"
+description: "Visualizing narrative changes in NFL Football from 2017 to 2018" 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = FALSE}
+#READING IN THE DATA FROM STORED FILES
+NFL2017 <- read.csv("NFLdata2017.csv", stringsAsFactors = F)
+NFL2018 <- read.csv("NFLdata2018.csv", stringsAsFactors = F)
+NFL78 <- read.csv("NFLdata78.csv", stringsAsFactors = F)
+#Stats (scores), Weather and More!
+#For the 2017 and 2018 regular seasons
+```
+
+
+```{r, echo = FALSE}
+library(ggplot2)
+library(ggsankey)
+library(dplyr)
+library(forcats)
+#building a dataframe of points for and against 
+tName = c(
+"Cincinnati Bengals",
+"Atlanta Falcons",
+"Buffalo Bills",
+"Dallas Cowboys",
+"Denver Broncos",
+"Green Bay Packers",
+"Jacksonville Jaguars",
+"Los Angeles Rams",
+"New Orleans Saints",
+"New York Jets",
+"Pittsburgh Steelers",
+"San Francisco 49ers",
+"Tampa Bay Buccaneers",
+"Tennessee Titans",
+"Washington Redskins",
+"Chicago Bears",
+"Baltimore Ravens",
+"Carolina Panthers",
+"Los Angeles Chargers",
+"New York Giants",
+"Oakland Raiders",
+"Minnesota Vikings",
+"New England Patriots",
+"Arizona Cardinals",
+"Cleveland Browns",
+"Miami Dolphins",
+"Kansas City Chiefs",
+"Detroit Lions",
+"Philadelphia Eagles",
+"Houston Texans",
+"Indianapolis Colts",
+"Seattle Seahawks"
+)
+
+#tCombFor17$tName = tName
+```
+
+```{r, echo = FALSE}
+#function for summation
+sumWeeksFor = function(team, week, dataset){
+  #takes the input team, week and data set to sum the points the team has scored until that point
+  #team is number from tName
+  totalPoints = sum(dataset$Home.Score[dataset$Home.Team == tName[team] & dataset$Week <= week]) + sum(dataset$Away.Score[dataset$Away.Team == tName[team] & dataset$Week <= week])
+  return(totalPoints)
+}
+
+#sumWeeksFor(3,17,NFL2017) #should be 302
+
+sumWeeksAgainst = function(team, week, dataset){
+  #takes the input team, week and dataset to sum the points the team had scored against them until that point
+  #team is an integer from tName
+  totalPoints = sum(dataset$Away.Score[dataset$Home.Team == tName[team] & dataset$Week <= week]) + sum(dataset$Home.Score[dataset$Away.Team == tName[team] & dataset$Week <= week])
+  return(totalPoints)
+}
+
+#sumWeeksAgainst(3,17,NFL2017) #should be 359
+```
+
+```{r, echo = FALSE}
+for(teamN in 1:32) {
+  #search by team by week
+  for (wK in 1:17) {
+    #repeat this code for Home against, away against, away sum
+    NFL2017$Home.Sum[NFL2017$Week == wK &
+                       NFL2017$Home.Team == tName[teamN]] = sumWeeksFor(teamN, wK, NFL2017) 
+    NFL2017$Home.Aga[NFL2017$Week == wK &
+                       NFL2017$Home.Team == tName[teamN]] = sumWeeksAgainst(teamN, wK, NFL2017)
+    NFL2017$Away.Sum[NFL2017$Week == wK &
+                       NFL2017$Away.Team == tName[teamN]] = sumWeeksFor(teamN, wK, NFL2017)
+    NFL2017$Away.Aga[NFL2017$Week == wK &
+                       NFL2017$Away.Team == tName[teamN]] = sumWeeksAgainst(teamN, wK, NFL2017)
+  }
+}
+```
+
+## What defines an interesting game, team, or season?
+
+There are many aspects of football that make NFL games, teams or seasons so memorable. The historical story lines are what make the NFL so popular as a sport across the United States. When a specific player or team plays extraordinarily well, they are continually in the national spotlight and make the NFL and their franchise a lot of money. 
+
+The most interesting teams often have the best players who score the most amount of points. Players like Josh Allen, Patrick Mahomes and Justin Herbert are revolutionizing the NFL and making games more exciting to watch. As more interesting football occurs, more money for the NFL is generated, as more people tune in to the game to watch what happens.
+
+Let's take a look at a few notable teams from the 2017 season to see what on the field aspects made them interesting (or boring) to watch.
+
+## Points Scored
+
+```{r, echo = FALSE}
+#subsetting the data for sankeyplot
+
+#creating a subset of the data
+NFLsub = NFL2017[NFL2017$Home.Team == "Los Angeles Chargers" | NFL2017$Home.Team == "Los Angeles Rams"| NFL2017$Home.Team == "Buffalo Bills" |  NFL2017$Home.Team == "New England Patriots" |NFL2017$Home.Team == "Philadelphia Eagles" |NFL2017$Home.Team == "Cleveland Browns" | NFL2017$Away.Team == "Los Angeles Chargers" | NFL2017$Away.Team == "Los Angeles Rams"| NFL2017$Away.Team == "Buffalo Bills" |  NFL2017$Away.Team == "New England Patriots" |NFL2017$Away.Team == "Philadelphia Eagles" |NFL2017$Away.Team == "Cleveland Browns", ]
+dupIndex = rep(1:nrow(NFLsub), each = 2)
+NFLsub2 = NFLsub[dupIndex, c(2:6, 15:18)] #creates duplicate  entry for each game and needed column
+#reorganizes labels
+row.names(NFLsub2) = c(1:178) #renames to integers
+keepIndex = NULL #initialized vector
+j = 1 #counter for keepIndex
+for(i in 1:178){ #goes through all rows and reorganizes into usable form
+  if(i%%2 == 0){ 
+  NFLsub2$TeamFor[i] = NFLsub2$Home.Team[i]
+  NFLsub2$TeamAga[i] = NFLsub2$Away.Team[i]
+  NFLsub2$ForSum[i] = NFLsub2$Home.Sum[i]
+  NFLsub2$AgaSum[i] = NFLsub2$Away.Sum[i]
+  } else{
+  NFLsub2$TeamFor[i] = NFLsub2$Away.Team[i]
+  NFLsub2$TeamAga[i] = NFLsub2$Home.Team[i]
+  NFLsub2$ForSum[i] = NFLsub2$Away.Sum[i]
+  NFLsub2$AgaSum[i] = NFLsub2$Home.Sum[i]
+  }
+  if(NFLsub2$TeamFor[i] == "Los Angeles Chargers" | NFLsub2$TeamFor[i] == "Los Angeles Rams" | NFLsub2$TeamFor[i] == "Buffalo Bills" |  NFLsub2$TeamFor[i] == "New England Patriots" | NFLsub2$TeamFor[i] == "Philadelphia Eagles" | NFLsub2$TeamFor[i] == "Cleveland Browns"){
+    keepIndex[j] = i
+    j = j+1
+  }
+}
+NFLsub2 = NFLsub2[keepIndex, ] #selects only the scores of the 6 teams
+
+
+row.names(NFLsub2) = c(1:96) #renames to integers
+
+#manually adding bye week scores (reproducing same # from previous week)
+NFLsub2[97, ] = NFLsub2[NFLsub2$Week == 9 & NFLsub2$TeamFor == "Philadelphia Eagles", ]
+NFLsub2$Week[97] = 10
+NFLsub2[98, ] = NFLsub2[NFLsub2$Week == 5 & NFLsub2$TeamFor == "Buffalo Bills", ]
+NFLsub2$Week[98] = 6
+NFLsub2[99, ] = NFLsub2[NFLsub2$Week == 7 & NFLsub2$TeamFor == "Los Angeles Rams", ]
+NFLsub2$Week[99] = 8
+NFLsub2[100, ] = NFLsub2[NFLsub2$Week == 8 & NFLsub2$TeamFor == "Los Angeles Chargers", ]
+NFLsub2$Week[100] = 9
+NFLsub2[101, ] = NFLsub2[NFLsub2$Week == 8 & NFLsub2$TeamFor == "Cleveland Browns", ]
+NFLsub2$Week[101] = 9
+NFLsub2[102, ] = NFLsub2[NFLsub2$Week == 8 & NFLsub2$TeamFor == "New England Patriots", ]
+NFLsub2$Week[102] = 9
+
+for(i in 1:102){ #adds Points against scores as well
+NFLsub2$TeamForAgainst[i] = sumWeeksAgainst(which(tName == NFLsub2$TeamFor[i]), NFLsub2$Week[i], NFL2017) 
+}
+```
+
+```{r, echo = FALSE}
+#Points For
+ggplot(NFLsub2, aes(x = Week, node = TeamFor, fill = TeamFor, value = ForSum)) +
+  geom_sankey_bump(space = 0, type = "alluvial", color = "transparent") +
+  theme(legend.title = element_blank(), legend.position = "bottom",text = element_text(size = 10)) +
+  geom_vline(xintercept = 14) +
+  labs(title = "Total Points Scored throughout the 2017 Season", y = "Total Points Scored")
+```
+
+This graph is ordered by total scoring offense by week. The highest scoring team is on top, followed by the second highest scoring team and so on. Using this graphic we can see the changes in relative total scoring ranking of these 6 teams as the year progressed.
+
+Each team has a reason for being represented, as they have something about them that makes them unique this season.
+
+* The Eagles made (and won) the Super Bowl
+* The Patriots made (and lost) the Super Bowl
+* The Rams had an exciting breakout year and lost in the playoffs
+* The Bills broke their 20 year playoff drought and lost in the playoffs
+* The Chargers are my favorite team and missed the playoffs. They serve as a representation of a relatively normal team.
+* The Browns were historically bad and went 0-16.
+
+Week 14 is also marked with a vertical line. That is the week that the Eagles QB and MVP favorite Carson Wentz tore his ACL.
+
+From this graphic, we can see a few different things. 
+
+* When their stud QB Carson Wentz went down in Week 14, the Eagles decreased in point scored ranking, indicating that their star player had a role in why they were scoring so much. 
+
+* The Super Bowl teams (Eagles and Patriots) were both consistently high scoring. 
+
+* The Browns were consistently lowest scoring, which makes sense because they did not win a game.
+
+From this visualization, we can vaguely understand that high scoring teams are more likely get into the playoffs and Super Bowl. 
+
+```{r, echo = FALSE, eval = FALSE}
+#Points Against
+ggplot(NFLsub2, aes(x = Week, node = TeamFor, fill = TeamFor, value = TeamForAgainst)) +
+  geom_sankey_bump(space = 0, type = "alluvial", color = "transparent") +
+  theme(legend.title = element_blank(), legend.position = "bottom",text = element_text(size = 10)) +
+  labs(title = "Total Points Against throughout the 2017 Season", y = "Total Points Against")
+```
+
+## Total Points in game
+```{r, echo = FALSE}
+#Points For + Points Against (Total Points in game)
+ggplot(NFLsub2, aes(x = Week, node = TeamFor, fill = TeamFor, value = ForSum+TeamForAgainst)) +
+  geom_sankey_bump(space = 0, type = "alluvial", color = "transparent") +
+  theme(legend.title = element_blank(), legend.position = "bottom",text = element_text(size = 10)) +
+  labs(title = "Total Points in Game for the 2017 Season", y = "Total Points")
+```
+
+This visualization shows the same type of graphic with the same 6 teams but this time it is ranked by total combined points (both for and against the team). 
+
+Once again, the Eagles, Patriots and Rams are at the top. This time the "normal" team of the Chargers is at the bottom.
+
+From this it can be seen that the most successful teams not only have the most points scored, they also have a fair amount of points scored against them. Because of this we can say that NFL games can be expected to be more interesting if more points are going to be scored. 
+
+## Comparing the 2017 and 2018 NFL Seasons
+
+Between the 2017 and 2018 NFL seasons, sports gambling was legalized. However, it was still in an infancy stage and did not directly fund the NFL until 2021. However, gambling terms allow for a different perspective of an NFL game.
+
+## Why gambling phrases are important to understanding the NFL
+
+  In the NFL, there is a phrase, "Any Given Sunday". Every week in the NFL, there are massive fluctuations in team performance due to a variety of factors. Because of this it is harder to quantify from the end score what the game "should" have looked like.
+  That is where gambling comes in handy for statistics. The gambling industry has access to incredibly powerful algorithms to calculate betting lines for games. These lines are the best for understanding what a specific NFL game was supposed to look like. Using these expected values, we can investigate the games that were supposed to be the most interesting and those that fell short.
+  
+* Spread: The spread refers to the expected score difference between teams. If a team is "favored by 3.5", the spread is  -3.5. This means that the favored team is expected to win by an average of 3.5 points. The + or - associated with the spread is related to the amount of money received by the bettor if they win, so for the purpose of this analysis all spreads will be positive.
+
+* Over/Under: The Over/Under (or O/U) is the expected total amount of points that will be scored in the game. If the O/U is 44.5, there is an expectation that, on average, the game will have 44.5 points scored. It is called the Over/Under because you either bet that the game will be over or under that amount in total points.
+  With these terms, we can investigate the differences between the 2017 and 2018 seasons.
+
+## Differences in the 2017 and 2018 seasons
+
+```{r, echo = FALSE}
+#2017 correlation plot
+library(gridExtra)
+library(ggcorrplot)
+corrFrame17 = data.frame(
+  NFL2017$Week,
+  NFL2017$Away.Score,
+  NFL2017$Home.Score,
+  NFL2017$Over.Under,
+  NFL2017$Spread,
+  NFL2017$Temperature,
+  NFL2017$Wind..mph.
+)
+names(corrFrame17) = c("Week", "Away Score", "Home Score", "Over/Under", "Spread", "Temperature", "Wind (mph)")
+NFLcorr17 = round(cor(corrFrame17), 1)
+ggcorrplot(NFLcorr17, type = "lower", lab = TRUE, lab_size = 3, title = "Correlation Relationships for the\n 2017 NFL Season")
+```
+
+
+```{r, echo = FALSE}
+#2018 correlation plot
+corrFrame18 = data.frame(
+  NFL2018$Week,
+  NFL2018$Away.Score,
+  NFL2018$Home.Score,
+  NFL2018$Over.Under,
+  NFL2018$Spread,
+  NFL2018$Temperature,
+  NFL2018$Wind..mph.
+)
+names(corrFrame18) = c("Week", "Away Score", "Home Score", "Over/Under", "Spread", "Temperature", "Wind (mph)")
+NFLcorr18 = round(cor(corrFrame18), 1)
+ggcorrplot(NFLcorr18, type = "lower", lab = TRUE, lab_size = 3, title = "Correlation Relationships for the\n 2018 NFL Season")
+```
+
+According to these graphs, there is not one factor that overwhelmingly impacts the performance of a game.
+
+* The most consistent relationship between these two seasons is how Temperature and the Week are related. The NFL regular season starts in August and goes through January, so the temperature is decreasing by the week.
+
+* In 2017, there appeared to be a weak positive correlation between Temperature and the Over/Under. This would indicate that colder games are expected to be lower scoring. However, this apparent relationship disappeared in 2018. 
+
+* In 2018, Over/Under had a more direct relationship between the home and away scores. Games with a higher O/U are expected to generally have higher scores. It is arguable that a lack of correlation between Over/Under and game scores is more notable.
+
+From this graphic, environmental causes such as wind speed and temperature did not distinctly affect the game score. The NFL did not have an external factor change the way games. However, there was a change in the form of high quality, high scoring games.
+
+#Finding Interesting Games through the Over/Under
+```{r, echo  = FALSE}
+#Over-Under vs Total Score
+library(ggplot2)
+ggplot(NFL78, aes(x = Over.Under, y = Home.Score+Away.Score))+
+  geom_point(aes(color = as.character(Year))) +
+  geom_abline(slope = 1, intercept = 0) +
+  labs(title = "NFL 2017 and 2018 seasons: \nOver/Under Line vs Total Points Scored", y = "Total Score", x = "Over/Under Line", color = "NFL Season")
+
+```
+
+This plot is the most important to the story of the NFL between these two seasons. It distinctly shows a drastic shift that occurred between the 2017 and 2018 seasons. 
+
+This visualization shows the Over/Under (expected score total) compared to the actual score total of every regular season game in 2017 and 2018. The line that runs across the middle is y=x.  Any data that is above the line had more points than the Over/Under, and therefore it was a higher scoring game than expected.
+
+By focusing on only the games with the highest Over/Under, we can see a distinct difference between 2017 and 2018. In 2017, there were 3 games that had a Over/Under that was greater than 55. In 2018, there were 12 such games. Among those games, 2017 only had 1 game that went over the expected combined total, and it barely made it. In 2018, there were 6 games that were over, and there were 3 that were barely under. This indicates that the most hyped regular season games of the year in 2018 not only were high scoring, but they were consistently high scoring in comparison to 2017. 
+
+Most notably in 2018, the game that is considered "The Greatest Regular Season Game" occurred between the Rams and the Chiefs. With an absurd Over/Under of 63.5, this game was expected to be high scoring. It delivered with a 54-51 scoreline that had 105 total points. If scoring is what leads the NFL to success, this game was arguably the most important regular season game ever for the NFL.
+
+This game marked the start of a new era for NFL football.
+
+```{r, echo = FALSE}
+sum2017 = sum(NFL2017$Home.Score) + sum(NFL2017$Away.Score)
+sum2018 = sum(NFL2018$Home.Score) + sum(NFL2018$Away.Score)
+sumOU17 = sum(NFL2017$Over.Under)
+sumOU18 = sum(NFL2018$Over.Under)
+library(ggplot2)
+barDF = data.frame(c("2017","2017","2018","2018"),c("Actual Points", "Total O/U","Actual Points", "Total O/U"), c(sum2017, sumOU17, sum2018, sumOU18))
+names(barDF) = c("Year", "Type", "Points")
+ggplot(barDF, aes(x = Type, y = Points, fill = Year)) +
+  geom_bar(stat="identity", position=position_dodge())+
+  ylab("Total") +
+  ggtitle("Total Points Scored vs Total Points Expected\nin the 2017 and 2018 NFL Seasons")
+
+```
+
+The changes in scoring in the NFL regular season between 2017 and 2018 are quite clear in this bar chart. While the raw difference between the scores is not eyepopping, 2018 does have increased scoring. The games were expected to score higher, and even then they slightly outperformed the expected point total. 
+
+## Conclusion
+
+While the legalization of gambling did not directly impact the NFL in a distinct way, there was a shift in the NFL between the 2017 and 2018 seasons. If points are what make games more exciting and more profitable, then the 2018 season was simply better. There was an increase in points that were expected to be scored, and there was an increase in points actually scored. This increase of excitement around the sport was helpful in allowing the NFL to continue to grow in influence and earn them money.

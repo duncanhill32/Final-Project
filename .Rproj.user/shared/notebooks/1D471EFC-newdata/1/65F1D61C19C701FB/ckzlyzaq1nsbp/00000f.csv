@@ -1,0 +1,3 @@
+"0","ggplot(NFL2017, aes(x = Over.Under, y = Home.Score+Away.Score))+"
+"0","  geom_point() +"
+"0","  geom_abline(slope = 1, intercept = 0)"
