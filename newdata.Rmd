@@ -107,7 +107,9 @@ The most interesting teams often have the best players who score the most amount
 
 Let's take a look at a few notable teams from the 2017 season to see what on the field aspects made them interesting (or boring) to watch.
 
-## Team Points For Total (Figure 1)
+## Team Points For
+
+### Figure #1
 
 ```{r, echo = FALSE}
 #subsetting the data for sankeyplot
@@ -201,7 +203,9 @@ ggplot(NFLsub2, aes(x = Week, node = TeamFor, fill = TeamFor, value = TeamForAga
   labs(title = "Total Points Against throughout the 2017 Season", y = "Total Points Against")
 ```
 
-## Combined Points Total (Figure #2)
+## Combined Points Total 
+
+### Figure #2
 ```{r, echo = FALSE}
 #Points For + Points Against (Total Points in game)
 ggplot(NFLsub2, aes(x = Week, node = TeamFor, fill = TeamFor, value = ForSum+TeamForAgainst)) +
@@ -279,7 +283,8 @@ According to these graphs, there is not one factor that overwhelmingly impacts t
 
 From this graphic, environmental causes such as wind speed and temperature did not drastically affect the outcomes of the games. During these seasons, the NFL was not affected by an external factor that impacted the games. However, there was a change in the form of high quality, high scoring games.
 
-#Finding Interesting Games through the Over/Under (Figure #5)
+## Finding Interesting Games through the Over/Under
+### Figure #5
 ```{r, echo  = FALSE}
 #Over-Under vs Total Score
 library(ggplot2)
@@ -300,7 +305,9 @@ Most notably in 2018, the game that is considered "The Greatest Regular Season G
 
 This game marked the start of a new era for NFL football.
 
-## NFL-wide Point totals (Figure #6)
+## NFL-wide Point totals 
+
+### Figure #6
 
 ```{r, echo = FALSE}
 sum2017 = sum(NFL2017$Home.Score) + sum(NFL2017$Away.Score)
