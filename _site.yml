@@ -2,7 +2,7 @@ name: "dhill_website"
 title: "MATH230 Final Project"
 description: |
   Duncan Hill Final Project
-output_dir: "_site"
+output_dir: "docs"
 navbar:
   right:
     - text: "Home"

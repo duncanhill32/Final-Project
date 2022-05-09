@@ -212,9 +212,9 @@ ggplot(NFLsub2, aes(x = Week, node = TeamFor, fill = TeamFor, value = ForSum+Tea
 
 This visualization shows the same type of graphic with the same 6 teams but this time it is ranked by total combined points (both for and against the team). 
 
-Once again, the Eagles, Patriots and Rams are at the top. This time the "normal" team of the Chargers is at the bottom.
+Once again, the Eagles, Patriots and Rams are at the top. This time the "normal" team, the Chargers, is at the bottom.
 
-From this it can be seen that the most successful teams not only have the most points scored, they also have a fair amount of points scored against them. Because of this we can say that NFL games can be expected to be more interesting if more points are going to be scored. 
+From this it can be seen that the most interesting teams not only have the most points scored, they also have a fair amount of points scored against them. Because of this we can say that NFL games can be expected to be more interesting if more points are going to be scored. 
 
 ## Comparing the 2017 and 2018 NFL Seasons
 
@@ -269,13 +269,13 @@ ggcorrplot(NFLcorr18, type = "lower", lab = TRUE, lab_size = 3, title = "Correla
 
 According to these graphs, there is not one factor that overwhelmingly impacts the performance of a game.
 
-* The most consistent relationship between these two seasons is how Temperature and the Week are related. The NFL regular season starts in August and goes through January, so the temperature is decreasing by the week.
+* The most consistent relationship between these two seasons is how Temperature and the Week are related. The NFL regular season starts in August and goes through January, so the temperature is decreasing by the week due to the weather. This decrease does not appear to affect games.
 
-* In 2017, there appeared to be a weak positive correlation between Temperature and the Over/Under. This would indicate that colder games are expected to be lower scoring. However, this apparent relationship disappeared in 2018. 
+* In 2017, there appeared to be a weak positive correlation between Temperature and the Over/Under. This would indicate that colder games are expected to be lower scoring. This apparent relationship disappeared in 2018. 
 
 * In 2018, Over/Under had a more direct relationship between the home and away scores. Games with a higher O/U are expected to generally have higher scores. It is arguable that a lack of correlation between Over/Under and game scores is more notable.
 
-From this graphic, environmental causes such as wind speed and temperature did not distinctly affect the game score. The NFL did not have an external factor change the way games. However, there was a change in the form of high quality, high scoring games.
+From this graphic, environmental causes such as wind speed and temperature did not drastically affect the outcomes of the games. During these seasons, the NFL was not affected by an external factor that impacted the games. However, there was a change in the form of high quality, high scoring games.
 
 #Finding Interesting Games through the Over/Under
 ```{r, echo  = FALSE}
