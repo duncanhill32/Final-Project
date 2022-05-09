@@ -319,7 +319,7 @@ barDF = data.frame(c("2017","2017","2018","2018"),c("Actual Points", "Total O/U"
 names(barDF) = c("Year", "Type", "Points")
 ggplot(barDF, aes(x = Type, y = Points, fill = Year)) +
   geom_bar(stat="identity", position=position_dodge())+
-  ylab("Total") +
+  ylab("Total Points") +
   ggtitle("Total Points Scored vs Total Points Expected\nin the 2017 and 2018 NFL Seasons")
 
 ```
