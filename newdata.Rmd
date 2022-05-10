@@ -107,6 +107,8 @@ The most interesting teams often have the best players who score the most amount
 
 Let's take a look at a few notable teams from the 2017 season to see what on the field aspects made them interesting (or boring) to watch.
 
+Source of Data: https://www.kaggle.com/datasets/tobycrabtree/nfl-scores-and-betting-data
+
 ## Team Points For
 
 ### Figure #1
