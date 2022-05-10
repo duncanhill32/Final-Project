@@ -21,7 +21,7 @@ This website is for Duncan Hill's Math230 Final Project.
 
   I plan to graduate with a BS in Chemical Engineering, with a concentration in Material Science Engineering. I also plan to have a minor in Mathematics (Statistics).
 
-  This website was created for the MATH230 Final Project using RStudio and Distill. This site displays visualizations I created during the duration of the course as well as an analysis of the 2017 and 2018 NFL season.
+  This website was created for the MATH230 Final Project using RStudio and Distill. This site displays visualizations I created during the duration of the course as well as an analysis of the 2017 and 2018 NFL seasons.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
