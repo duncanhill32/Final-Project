@@ -1,5 +1,5 @@
 ---
-title: "NFL Football and Sports Betting"
+title: "NFL Football and Entertainment"
 description: "Visualizing narrative changes in NFL Football from 2017 to 2018" 
 ---
 
